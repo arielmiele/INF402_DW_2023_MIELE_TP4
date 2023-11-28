@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>INF402_DW_2023_MIELE_TP4 - Consulta Asincrónica de Productos con Ajax</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>INF402_DW_2023_MIELE_TP4 - Consulta Asincrónica de Productos con Ajax</h1>
+    <label for="productoID">Ingrese ID del Producto:</label>
+    <input type="number" id="productoID">
+    <button onclick="buscarProducto()">Buscar Producto</button>
+    <br><br>
+    <div id="resultado"></div>
+
+    <script>
+        function buscarProducto() {
+            var productoID = $('#productoID').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'servidor.php',
+                data: { id: productoID },
+                dataType: 'json',
+                success: function(response) {
+                    var resultadoHTML = '<pre>' + JSON.stringify(response, null, 2) + '</pre>';
+                    $('#resultado').html(resultadoHTML);
+                },
+                error: function(xhr, status, error) {
+                    $('#resultado').text('El producto no existe en la base de datos. Ingrese otro ID.');
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
